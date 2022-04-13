@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Storybook</title>
+    <div th:replace="master :: head"></div>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: user-header"></div>
+    <div th:replace="master :: user-aside"></div>
+
+    <div class="content-wrapper">
+        <section class="content-header">
+            <div style="display: inline;" class=" alert alert-danger" th:inline="text"
+                 th:if="${!#strings.isEmpty(error)}">
+                [[${error}]]
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div>
+                <div th:if="${page == titlePageNum}">
+                    <div class="container">
+                        <div class="row">
+                            <form autocomplete="off" th:action="@{/storybooks/create/titlePage}"
+                                  enctype="multipart/form-data"
+                                  th:object="${titlePageModel}" method="post" class="form-horizontal"
+                                  role="form">
+                                <fieldset>
+                                    <!-- Form Name -->
+                                    <legend>Create a new Storybook</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="categories">Genre / Category</label>
+                                        <div class="col-md-4">
+                                            <select class="form-control" th:field="${titlePageModel.categoryId}"
+                                                    id="categories">
+                                                <option value="0">-- Select Genre --</option>
+                                                <option th:each="category : ${categories}"
+                                                        th:value="${category.id}"
+                                                        th:style="'background-image:url('+'\'' + ${category.iconBase64} + '\''+');'"
+                                                        th:text="${category.name}">
+                                                </option>
+                                            </select>
+                                            <span style="color: red; font-weight: bold"
+                                                  th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}">Category Error</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="title">Title
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" id="title" th:field="${titlePageModel.title}"
+                                                   placeholder="Title" class="form-control"/>
+                                            <span style="color: red; font-weight: bold"
+                                                  th:if="${#fields.hasErrors('title')}"
+                                                  th:errors="*{title}">Title Error</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="author">Author
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" id="author" th:field="${titlePageModel.author}"
+                                                   placeholder="Author" class="form-control"/>
+                                            <span style="color: red; font-weight: bold"
+                                                  th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="image">Image
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="file" id="image"
+                                                   accept="image/png, image/jpeg"
+                                                   th:field="${titlePageModel.image}"
+                                                   class="form-control"/>
+                                            <span style="color: red; font-weight: bold" th:utext="${imageError}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="submitButton"></label>
+                                        <div class="col-md-4">
+                                            <div>
+                                                <button type="submit" id="titleSubmitButton" name="submitButton"
+                                                        class="btn btn-success">Next
+                                                </button>
+                                                <button type="button" class="btn btn-inverse"
+                                                        onclick="window.history.back()">
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${page > titlePageNum && page < conclusionPageNum}">
+                    <form autocomplete="off" th:action="@{/storybooks/create(page=${page})}"
+                          enctype="multipart/form-data"
+                          th:object="${pageModel}" method="post" class="form-horizontal"
+                          role="form">
+                        <fieldset>
+                            <legend>Create Storybook Page [[${page}]]</legend>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <select class="form-control" th:field="${pageModel.topLeftSegment.hasText}"
+                                                    id="tlHasText">
+                                                <option value="1">Text</option>
+                                                <option value="0">Image</option>
+                                            </select>
+                                            <textarea rows="10" cols="80" id="tlText"
+                                                      th:field="${pageModel.topLeftSegment.text}"
+                                                      placeholder="Text" class="form-control">
+                                            [[${pageModel.topLeftSegment.text}]]
+                                        </textarea>
+                                            <div id="tlImageBlock">
+                                                <input type="file" id="tlImage"
+                                                       accept="image/png, image/jpeg"
+                                                       th:field="${pageModel.topLeftSegment.image}"
+                                                       class="form-control"/>
+                                                <!--<span>Current File: </span>
+                                                <span style="color: green; font-weight: bold" th:utext="${pageModel.topLeftSegment.image?.originalFilename}"></span>-->
+                                                <!--<span style="color: red; font-weight: bold" th:utext="${tlImageError}"></span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <select class="form-control" th:field="${pageModel.topRightSegment.hasText}"
+                                                    id="trHasText">
+                                                <option value="1">Text</option>
+                                                <option value="0">Image</option>
+                                            </select>
+                                            <textarea rows="10" cols="80" id="trText"
+                                                      th:field="${pageModel.topRightSegment.text}"
+                                                      placeholder="Text" class="form-control">
+                                            [[${pageModel.topRightSegment.text}]]
+                                        </textarea>
+                                            <div id="trImageBlock">
+                                                <input type="file" id="trImage"
+                                                       accept="image/png, image/jpeg"
+                                                       th:field="${pageModel.topRightSegment.image}"
+                                                       class="form-control"/>
+                                                <!--<span style="color: red; font-weight: bold" th:utext="${imageError}"></span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <select class="form-control"
+                                                    th:field="${pageModel.bottomLeftSegment.hasText}"
+                                                    id="blHasText">
+                                                <option value="1">Text</option>
+                                                <option value="0">Image</option>
+                                            </select>
+                                            <textarea rows="10" cols="80" id="blText"
+                                                      th:field="${pageModel.bottomLeftSegment.text}"
+                                                      placeholder="Text" class="form-control">
+                                            [[${pageModel.bottomLeftSegment.text}]]
+                                        </textarea>
+                                            <div id="blImageBlock">
+                                                <input type="file" id="blImage"
+                                                       accept="image/png, image/jpeg"
+                                                       th:field="${pageModel.bottomLeftSegment.image}"
+                                                       class="form-control"/>
+                                                <!--<span style="color: red; font-weight: bold" th:utext="${tlImageError}"></span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-10">
+                                            <select class="form-control"
+                                                    th:field="${pageModel.bottomRightSegment.hasText}"
+                                                    id="brHasText">
+                                                <option value="1">Text</option>
+                                                <option value="0">Image</option>
+                                            </select>
+                                            <textarea rows="10" cols="80" id="brText"
+                                                      th:field="${pageModel.bottomRightSegment.text}"
+                                                      placeholder="Text" class="form-control">
+                                            [[${pageModel.bottomRightSegment.text}]]
+                                        </textarea>
+                                            <div id="brImageBlock">
+                                                <input type="file" id="brImage"
+                                                       accept="image/png, image/jpeg"
+                                                       th:field="${pageModel.bottomRightSegment.image}"
+                                                       th:value="${pageModel.bottomRightSegment.image}"
+                                                       class="form-control"/>
+                                                <!--<span style="color: red; font-weight: bold" th:utext="${tlImageError}"></span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="float: right; padding: 0 65px 0 0">
+                                        <div class="form-group">
+                                            <a type="button" class="btn btn-warning"
+                                               th:href="@{/storybooks/create(page=(${titlePageNum}))}">
+                                                <i class="fa fa-chevron-left"></i> First
+                                            </a>
+                                            <a type="button" class="btn btn-primary"
+                                               th:href="@{/storybooks/create(page=(${page} - 1))}">
+                                                <i class="fa fa-arrow-left"></i> Back
+                                            </a>
+                                            <button type="submit" th:formaction="@{/storybooks/create(page=${page})}"
+                                                    id="submitButton" name="submitButton"
+                                                    class="btn btn-success">Next <i class="fa fa-arrow-right"></i>
+                                            </button>
+                                            <button type="submit" class="btn btn-warning"
+                                                    th:formaction="@{/storybooks/create(page=${page}, routeToLast=true)}">
+                                                Last <i class="fa fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div th:if="${page == conclusionPageNum}">
+                    <div class="container">
+                        <div class="row">
+                            <form autocomplete="off" th:action="@{/storybooks/create/story}"
+                                  enctype="multipart/form-data"
+                                  th:object="${conclusionPageModel}" method="post" class="form-horizontal"
+                                  role="form">
+                                <fieldset>
+                                    <!-- Form Name -->
+                                    <legend>Conclusion Page</legend>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="cTitle">Title
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" id="cTitle" th:field="${conclusionPageModel.title}"
+                                                   placeholder="Title" class="form-control"/>
+                                            <span style="color: red; font-weight: bold"
+                                                  th:if="${#fields.hasErrors('title')}"
+                                                  th:errors="*{title}">Title Error</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="cAuthor">Author
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" id="cAuthor" th:field="${conclusionPageModel.author}"
+                                                   placeholder="Author" class="form-control"/>
+                                            <span style="color: red; font-weight: bold"
+                                                  th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-2"></div>
+
+                                        <label class="col-md-2" for="cHasText">
+                                            <select class="form-control" th:field="${conclusionPageModel.hasText}"
+                                                    id="cHasText">
+                                                <option value="1">Text</option>
+                                                <option value="0">Image</option>
+                                            </select>
+                                        </label>
+
+                                        <div class="col-md-4">
+                                            <textarea rows="10" cols="80" id="cText"
+                                                      th:field="${conclusionPageModel.text}"
+                                                      placeholder="Text" class="form-control">
+                                            [[${pageModel.topRightSegment.text}]]
+                                        </textarea>
+                                            <div id="cImageBlock">
+                                                <input type="file" id="cImage"
+                                                       accept="image/png, image/jpeg"
+                                                       th:field="${conclusionPageModel.image}"
+                                                       class="form-control"/>
+                                                <!--<span style="color: red; font-weight: bold" th:utext="${imageError}"></span>-->
+                                            </div>
+                                            <span style="color: red; font-weight: bold" th:utext="${imageError}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="submitButton"></label>
+                                        <div class="col-md-4">
+                                            <div>
+                                                <button type="submit" id="conclusionSubmitButton" name="submitButton"
+                                                        class="btn btn-success">Create Story
+                                                </button>
+                                                <a type="button" class="btn btn-primary"
+                                                   th:href="@{/storybooks/create(page=(${page} - 1))}">
+                                                    Back
+                                                </a>
+                                                <a type="button" class="btn btn-danger"
+                                                   th:href="@{/user/home}">
+                                                    Cancel
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+
+<!-- SlimScroll -->
+<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/js/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+<!-- page script -->
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script src="@{/js/bootstrap-select.min.js}"></script>
+<script th:if="${page == conclusionPageNum}">
+    $(function () {
+        let cHasText = [[${conclusionPageModel?.hasText}]];
+        if (cHasText === 0) {
+            $('#cImageBlock').show();
+            $('#cText').hide();
+        } else {
+            $('#cImageBlock').hide();
+            $('#cText').show();
+        }
+
+        $('#cHasText').change(function () {
+            if ($(this).val() === '0') {
+                $('#cImageBlock').show();
+                $('#cText').hide();
+            } else {
+                $('#cImageBlock').hide();
+                $('#cText').show();
+            }
+        });
+    })
+</script>
+
+<script th:if="${page > titlePageNum && page < conclusionPageNum}">
+    $(function () {
+
+        /********/
+        // $("form#data").submit(function(e) {
+        //     e.preventDefault();
+        //     var formData = new FormData(this);
+        //
+        //     $.ajax({
+        //         url: "",
+        //         type: 'POST',
+        //         data: formData,
+        //         success: function (data) {
+        //             $('#tlImage').value('abc');
+        //             alert(data)
+        //         },
+        //         cache: false,
+        //         contentType: false,
+        //         processData: false
+        //     });
+        // });
+
+        //         fileUploadForm.submit(function (e) {
+//             e.preventDefault();
+//             $.ajax({
+//                     type: 'POST',
+//                     url: $(this).attr('action'),
+//                     enctype: 'multipart/form-data',
+//                     data: new FormData(this),
+//                     processData: false,
+//                     contentType: false,
+//                     success: function (data) {
+//                         console.log('Thank God it worked!');
+//                     }
+//                 }
+//             );
+//         });
+//
+// // enctype field was set in the form but Ajax request didn't set it by default.
+//
+//         <form action="process/file-upload" enctype="multipart/form-data" method="post" >
+//
+//             <input type="file" name="input-file" accept="text/plain" required>
+//                 ...
+//         </form>
+
+        /********/
+
+        let tlHasText = [[${pageModel?.topLeftSegment?.hasText}]];
+        let trHasText = [[${pageModel?.topRightSegment?.hasText}]];
+        let blHasText = [[${pageModel?.bottomLeftSegment?.hasText}]];
+        let brHasText = [[${pageModel?.bottomRightSegment?.hasText}]];
+
+        if (tlHasText === 0) {
+            $('#tlImageBlock').show();
+            $('#tlText').hide();
+        } else {
+            $('#tlImageBlock').hide();
+            $('#tlText').show();
+        }
+
+        if (trHasText === 0) {
+            $('#trImageBlock').show();
+            $('#trText').hide();
+        } else {
+            $('#trImageBlock').hide();
+            $('#trText').show();
+        }
+
+        if (blHasText === 0) {
+            $('#blImageBlock').show();
+            $('#blText').hide();
+        } else {
+            $('#blImageBlock').hide();
+            $('#blText').show();
+        }
+
+        if (brHasText === 0) {
+            $('#brImageBlock').show();
+            $('#brText').hide();
+        } else {
+            $('#brImageBlock').hide();
+            $('#brText').show();
+        }
+
+        $('#tlHasText').change(function () {
+            if ($(this).val() === '0') {
+                $('#tlImageBlock').show();
+                $('#tlText').hide();
+            } else {
+                $('#tlImageBlock').hide();
+                $('#tlText').show();
+            }
+        });
+
+        $('#trHasText').change(function () {
+            if ($(this).val() === '0') {
+                $('#trImageBlock').show();
+                $('#trText').hide();
+            } else {
+                $('#trImageBlock').hide();
+                $('#trText').show();
+            }
+        });
+
+        $('#blHasText').change(function () {
+            if ($(this).val() === '0') {
+                $('#blImageBlock').show();
+                $('#blText').hide();
+            } else {
+                $('#blImageBlock').hide();
+                $('#blText').show();
+            }
+        });
+
+        $('#brHasText').change(function () {
+            if ($(this).val() === '0') {
+                $('#brImageBlock').show();
+                $('#brText').hide();
+            } else {
+                $('#brImageBlock').hide();
+                $('#brText').show();
+            }
+        });
+    })
+</script>
+</body>
+</html>

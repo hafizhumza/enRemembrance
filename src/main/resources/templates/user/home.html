@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Home</title>
+    <div th:replace="master :: head"></div>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: user-header"></div>
+    <div th:replace="master :: user-aside"></div>
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1 style="display: inline; margin-right: 10px;">
+                Home Page
+            </h1>
+            <div style="display: inline;" class=" alert alert-danger" th:inline="text"
+                 th:if="${!#strings.isEmpty(error)}">
+                [[${error}]]
+            </div>
+            <div style="display: inline;" class="alert alert-success" th:inline="text"
+                 th:if="${!#strings.isEmpty(ResultMessage)}">
+                [[${ResultMessage}]]
+            </div>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div>
+                <div class="row">
+                    <div class=" col-lg-offset-1   col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner">
+                                <h3>
+                                    <span style="color: white; font-weight: bold" th:utext="${storiesCount}"></span>
+                                </h3>
+
+                                <p>My Storybooks</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-document"></i>
+                            </div>
+                            <a th:href="@{/storybooks/home}" class="small-box-footer">More info <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3>
+                                    <span style="color: white; font-weight: bold" th:utext="${storiesCount}"></span>
+                                </h3>
+
+                                <p>Create Storybook</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-plus-square"></i>
+                            </div>
+                            <a th:href="@{/storybooks/create}" class="small-box-footer">Click here to create <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-yellow">
+                            <div class="inner">
+                                <h3>
+                                    <span style="color: white; font-weight: bold" th:utext="${storiesCount}"></span>
+                                </h3>
+
+                                <p>Search Storybook</p>
+                            </div>
+                            <div class="icon">
+                                <i class="icon ion-search"></i>
+                            </div>
+                            <a th:href="@{/storybooks/home}" class="small-box-footer">Click here to search <i
+                                    class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-offset-3 col-lg-4 col-xs-6">
+                    <h2 class="headline text-black"> Welcome <span class="hidden-xs" th:utext="${user.name}"></span>
+                    </h2>
+                    <!-- /.error-content -->
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-offset-3 col-md-4">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user">
+                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                        <div class="widget-user-header bg-purple-active">
+                            <h3 class="widget-user-username"><span class="hidden-xs" th:utext="${user.name}"></span>
+                            </h3>
+                            <h5 class="widget-user-desc"><span class="hidden-xs" th:utext="${user.role}"></span>
+                            </h5>
+                        </div>
+                        <div class="widget-user-image">
+                            <img class="img-circle" src="/images/avatar5.png" alt="User Avatar">
+                        </div>
+                        <div class="box-footer">
+                            <div class="row">
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4 border-right">
+                                    <div class="description-block">
+                                        <!--TODO: to be implemented-->
+                                        <!--<h5 class="description-header"><span class="hidden-xs"
+                                                                             th:utext="${userTaskSize}"></span>
+                                                                             </h5>-->
+                                        <span class="description-text">TASKS</span>
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-4">
+                                    <div class="description-block">
+                                    </div>
+                                    <!-- /.description-block -->
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.error-page -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <div class="control-sidebar-bg"></div>
+</div>
+<!-- ./wrapper -->
+
+<div th:replace="master :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit User</title>
+    <div th:replace="master :: head"></div>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: admin-header"></div>
+    <div th:replace="master :: admin-aside"></div>
+
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div>
+                <div class="container">
+                    <div class="row">
+                        <form autocomplete="off" action="#" th:action="@{/admin/update-user}"
+                              th:object="${processUser}" method="post" class="form-horizontal"
+                              role="form">
+                            <fieldset>
+                                <!-- Form Name -->
+                                <legend>Edit User</legend>
+                                <!-- Text input-->
+                                <input type="hidden" name="id" th:field="${processUser.id}"/>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="fullName">User Name
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="fullName" th:field="${processUser.fullName}"
+                                               placeholder="Name" class="form-control" disabled/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="email">User Email</label>
+                                    <div class="col-md-4">
+                                        <input type="text" id="email" th:field="${processUser.email}"
+                                               placeholder="Name" class="form-control" disabled/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="accountNonLocked">Account Status</label>
+                                    <div class="col-md-4">
+                                        <select
+                                                id="accountNonLocked"
+                                                th:disabled="${processUser.userRole == 'ADMIN'}"
+                                                class="form-control"
+                                                data-live-search="true"
+                                                name="accountNonLocked"
+                                                th:field="${processUser.accountNonLocked}">
+                                            <option th:value="true" th:text="Active">Active</option>
+                                            <option th:value="false" th:text="Locked">Locked</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">User Type</label>
+                                    <div class="col-md-4 text-left">
+                                        <input type="text" id="userRole" th:field="${processUser.userRole}"
+                                               placeholder="Name" class="form-control" disabled/>
+                                    </div>
+                                </div>
+
+                                <!-- Button (Double) -->
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label" for="submitButton"></label>
+                                    <div class="col-md-8">
+                                        <button type="submit" id="submitButton" name="submitButton"
+                                                class="btn btn-success">Save
+                                        </button>
+                                        <button type="button" class="btn btn-inverse" onclick="window.history.back()">
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+
+<!-- SlimScroll -->
+<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/js/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+<!-- page script -->
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script src="@{/js/bootstrap-select.min.js}"></script>
+<script>
+    $(function () {
+        $('#example1').DataTable({
+            "ordering": false
+        });
+        $('#table2').DataTable();
+    });
+</script>
+</body>
+</html>

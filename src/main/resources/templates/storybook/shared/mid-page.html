@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Storybook</title>
+    <div th:replace="master :: head"></div>
+    <link rel="stylesheet" th:href="@{/css/mid-page.css}"/>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: shared-header"></div>
+    <div th:replace="master :: shared-aside"></div>
+
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="mid-page">
+                <div class="mid-page__content">
+                    <div class="mid-page__section">
+                        <p th:inline="text"
+                           th:if="${pageModel.topLeftSegment != null && pageModel.topLeftSegment.hasText == 1}">
+                            [[${pageModel.topLeftSegment.text}]]
+                        </p>
+                        <img
+                                th:if="${pageModel.topLeftSegment != null && pageModel.topLeftSegment.hasText == 0 && !#strings.isEmpty(pageModel.topLeftSegment.base64Image)}"
+                                th:src="|data:image/png;base64,${pageModel.topLeftSegment.base64Image}|" alt="Image">
+                    </div>
+                    <div class="mid-page__section">
+                        <p th:inline="text"
+                           th:if="${pageModel.topRightSegment != null && pageModel.topRightSegment.hasText == 1}">
+                            [[${pageModel.topRightSegment.text}]]
+                        </p>
+                        <img
+                                th:if="${pageModel.topRightSegment != null && pageModel.topRightSegment.hasText == 0 && !#strings.isEmpty(pageModel.topRightSegment.base64Image)}"
+                                th:src="|data:image/png;base64,${pageModel.topRightSegment.base64Image}|" alt="Image">
+                    </div>
+                    <div class="mid-page__section">
+                        <p th:inline="text"
+                           th:if="${pageModel.bottomLeftSegment != null && pageModel.bottomLeftSegment.hasText == 1}">
+                            [[${pageModel.bottomLeftSegment.text}]]
+                        </p>
+                        <img
+                                th:if="${pageModel.bottomLeftSegment != null && pageModel.bottomLeftSegment.hasText == 0 && !#strings.isEmpty(pageModel.bottomLeftSegment.base64Image)}"
+                                th:src="|data:image/png;base64,${pageModel.bottomLeftSegment.base64Image}|" alt="Image">
+                    </div>
+                    <div class="mid-page__section">
+                        <p th:inline="text"
+                           th:if="${pageModel.bottomRightSegment != null && pageModel.bottomRightSegment.hasText == 1}">
+                            [[${pageModel.bottomRightSegment.text}]]
+                        </p>
+                        <img
+                                th:if="${pageModel.bottomRightSegment != null && pageModel.bottomRightSegment.hasText == 0 && !#strings.isEmpty(pageModel.bottomRightSegment.base64Image)}"
+                                th:src="|data:image/png;base64,${pageModel.bottomRightSegment.base64Image}|"
+                                alt="Image">
+                    </div>
+                </div>
+                <h3 style="text-align: center;" th:if="${pageModel == null
+                        || (pageModel.topLeftSegment == null
+                                && pageModel.topRightSegment == null
+                                && pageModel.bottomLeftSegment == null
+                                && pageModel.bottomRightSegment == null)
+                        || ((#strings.isEmpty(pageModel.topLeftSegment.text) && #strings.isEmpty(pageModel.topLeftSegment.base64Image))
+                             && (#strings.isEmpty(pageModel.topRightSegment.text) && #strings.isEmpty(pageModel.topRightSegment.base64Image))
+                             && (#strings.isEmpty(pageModel.bottomLeftSegment.text) && #strings.isEmpty(pageModel.bottomLeftSegment.base64Image))
+                             && (#strings.isEmpty(pageModel.bottomRightSegment.text) && #strings.isEmpty(pageModel.bottomRightSegment.base64Image)))}"
+                >
+                    No Data
+                </h3>
+                <div class="mid-page__number">Page [[${page}]]</div>
+
+                <div class="row">
+                    <div class="col-md-8">
+                    </div>
+                    <div class="col-md-1" style="padding: 0px 0px 0px 30px;">
+                        <a th:href="@{/shared/storybooks/{token}(token=${token}, page=(${page - 1}))}"
+                           class="btn btn-primary btn-lg"><i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-1" style="padding: 0px 0px 30px 10px;">
+                        <a th:href="@{/shared/storybooks/{token}(token=${token}, page=(${page + 1}))}"
+                           class="btn btn-success btn-lg">Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+
+<!-- SlimScroll -->
+<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/js/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+<!-- page script -->
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+
+</body>
+
+</html>

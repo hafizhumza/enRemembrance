@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sorts+Mill+Goudy&display=swap');
+
+.end-page {
+  background-color: #fff;
+  box-shadow: 3px 3px 8px 2px #0000000f;
+  width: 100%;
+  min-height: 1000px;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 100px 0;
+}
+.end-page__heading {
+  font-size: 60px;
+  line-height: 80px;
+  font-family: 'Cinzel', serif;
+  text-transform: uppercase;
+  text-align: center;
+  color: #000;
+  max-width: 80%;
+  margin: 0px auto 0px auto;
+}
+
+.end-page__description {
+  font-size: 16px;
+  line-height: 24px;
+  color: #000;
+  width: 100%;
+  max-width: 500px;
+  margin: 50px auto 50px auto;
+  text-align: center;
+}
+
+.end-page__image {
+  margin: 50px auto;
+  width: 70%;
+}
+
+.end-page__image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.end-page__author {
+  margin-top: 0px;
+}
+
+.end-page__author > h3 {
+  font-size: 24px;
+  font-family: 'Sorts Mill Goudy', serif;
+  line-height: 32px;
+  color: #000;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.end-page__author > p {
+  font-size: 18px;
+  line-height: 28px;
+  color: #000;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1280px) {
+  .end-page__heading {
+    font-size: 48px;
+    line-height: 60px;
+  }
+}
+
+@media (max-width: 920px) {
+  .end-page__heading {
+    font-size: 32px;
+    line-height: 48px;
+    font-weight: 600
+  }
+}
+
+@media (max-width: 768px) {
+  .end-page {
+    padding: 50px 0;
+  }
+  .end-page__heading {
+    font-size: 28px;
+    line-height: 42px;
+  }
+
+  .end-page__description {
+    padding: 0 30px;
+  }
+}

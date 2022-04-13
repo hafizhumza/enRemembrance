@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
+
+.mid-page {
+  background-color: #fff;
+  box-shadow: 3px 3px 8px 2px #0000000f;
+  width: 100%;
+  height: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.mid-page__content {
+  padding: 50px 50px 100px 50px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.mid-page__section {
+  width: 100%;
+  height: 100%;
+}
+.mid-page__section > p {
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;;
+  line-height: 24px;
+  text-align: justify;
+  color: #000;
+  margin: 0;
+}
+
+.mid-page__section > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: top;
+}
+
+.mid-page__number {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  line-height: 24px;
+  text-align: justify;
+  color: #000;
+  padding: 0px 50px 50px 50px;
+  margin: 0;
+}
+
+@media (max-width: 1280px) {
+  .cover-page__heading {
+    font-size: 48px;
+    line-height: 60px;
+  }
+}
+
+@media (max-width: 920px) {
+  .mid-page__content {
+    padding: 30px 30px 60px 30px;
+  }
+
+  .mid-page__number {
+    padding: 0px 30px 30px 30px;
+  }
+}
+
+@media (max-width: 475px) {
+  .mid-page__content {
+    display: flex;
+    flex-direction: column;
+  }
+}

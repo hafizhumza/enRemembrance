@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Storybook</title>
+    <div th:replace="master :: head"></div>
+    <link rel="stylesheet" th:href="@{/css/cover-page.css}"/>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: admin-header"></div>
+    <div th:replace="master :: admin-aside"></div>
+
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div class="cover-page">
+                <h1 class="cover-page__heading" th:text="${titlePageModel.title}"></h1>
+
+                <div class="cover-page__image">
+                    <img th:src="|data:image/png;base64,${titlePageModel.getBase64Image()}|" alt="Image"/>
+                </div>
+
+                <div class="cover-page__author">
+                    <h3 th:text="${titlePageModel.author}"></h3>
+                    <p th:inline="text">Genre: [[${categoryName}]]</p>
+                </div>
+
+                <div style="float: right;margin-top: 20px;margin-right: 20px;">
+                    <a th:href="@{/admin/storybooks/{id}(id=${storyBookId}, page=(${page + 1}))}"
+                       class="btn btn-success btn-lg">Next <i class="fa fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+
+<!-- SlimScroll -->
+<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/js/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+<!-- page script -->
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+</body>
+
+</html>

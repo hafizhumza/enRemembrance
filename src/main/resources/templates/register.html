@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Register</title>
+    <link rel="icon" type="image/png" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/util.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/material-design-iconic-font.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animate.css}"/>
+    <link rel="stylesheet" th:href="@{/css/hamburgers.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/animsition.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/select2.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/daterangepicker.css}"/>
+</head>
+
+<body>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-85 p-b-20">
+            <form class="login100-form validate-form" role="form"
+                  th:object="${registerModel}"
+                  th:action="@{/register}"
+                  method="POST">
+				<span class="login100-form-title">
+					Sign Up for enRemembrance
+				</span>
+                <span class="login100-form-avatar p-b-40">
+					<img th:src="@{/images/admin.png}" alt="Image">
+				</span>
+                <p class="m-b-40" style="font-size: 16px;">Where your stories are the platform and memorial that can be
+                    shared now and
+                    passed down to inspire future generations</p>
+                <div class="alert alert-danger alert-dismissable" th:inline="text" th:if="${!#strings.isEmpty(error)}">
+                    [[${error}]]
+                </div>
+                <div class="alert alert-success alert-dismissable" th:inline="text"
+                     th:if="${!#strings.isEmpty(ResultMessage)}">
+                    [[${ResultMessage}]]
+                </div>
+                <div class="wrap-input100 validate-input m-t-50 m-b-50" data-validate="Enter Full Name">
+                    <input class="input100" type="text" name="fullName" th:field="*{fullName}">
+                    <span class="focus-input100" th:data-placeholder="FullName"></span>
+                </div>
+                <div class="wrap-input100 validate-input m-b-50" data-validate="Enter a valid email">
+                    <input class="input100" type="text" name="email" th:field="*{email}">
+                    <span class="focus-input100" th:data-placeholder="Email"></span>
+                </div>
+                <div class="wrap-input100 validate-input m-b-50" data-validate="Enter a valid date">
+                    <input class="input100" type="date" id="dob" name="dob" th:field="*{dob}">
+                </div>
+                <div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+                    <input class="input100" type="password" name="pass" th:field="*{password}">
+                    <span class="focus-input100" th:data-placeholder="Password"></span>
+                </div>
+                <div class="container-login100-form-btn">
+                    <button type="submit" class="login100-form-btn">
+                        Sign Up
+                    </button>
+                </div>
+                <ul class="login-more p-t-40">
+                    <li>
+                        <span class="txt1">
+							Already have an account?
+						</span>
+                        <a th:href="@{/login}" class="txt2" onClick="">
+                            Login </a>
+                    </li>
+                </ul>
+            </form>
+            <div class="panel-footer m-t-25 m-b-25">
+                Terms and conditions are applied. <a th:href="@{/terms}" onClick="">Terms of Use</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/animsition.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/popper.js}"></script>
+<script th:inline="javascript" th:src="@{/js/select2.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/moment.min.js}"></script>
+<script th:inline="javascript" th:src="@{/js/daterangepicker.js}"></script>
+<script th:inline="javascript" th:src="@{/js/countdowntime.js}"></script>
+<script th:inline="javascript" th:src="@{/js/main.js}"></script>
+
+</body>
+</html>

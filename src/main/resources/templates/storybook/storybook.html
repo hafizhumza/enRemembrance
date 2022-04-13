@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Storybook</title>
+    <div th:replace="master :: head"></div>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <div th:replace="master :: user-header"></div>
+    <div th:replace="master :: user-aside"></div>
+
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <div>
+                <div class="container">
+                    <fieldset>
+                        <!-- Form Name -->
+                        <legend>Title Page</legend>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h3>Genre:</h3>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <!--<h1 th:inline="text" >
+                                            [[${header.title}]]
+                                            <small th:text="${header.subtitle}">Subtitle</small>
+                                        </h1>-->
+                                        <h3>
+                                            <span class="label label-success"
+                                                  th:text="${storyBook.categoryName}"></span>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h3>Title:</h3>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h3 class="text-capitalize text-info">
+                                            <b th:text="${storyBook.titlePage.title}"></b>
+                                        </h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <h3>Author:</h3>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <h3 class="text-capitalize text-info">
+                                            <b th:text="${storyBook.titlePage.author}"></b>
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <img
+                                        style="border-radius: 8px;display: block; width: 300px; height: 300px; object-fit: cover"
+                                        th:src="|data:image/png;base64,${storyBook.titlePage.getBase64Image()}|"
+                                        alt="Image"/>
+                                <!--<img th:src="@{'data:image/jpeg;base64,' + ${storyB}">-->
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- DataTables -->
+
+<!-- SlimScroll -->
+<script th:src="@{/js/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/js/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/js/demo.js}"></script>
+<!-- page script -->
+<script th:src="@{/js/jquery.dataTables.min.js}"></script>
+<script th:src="@{/js/dataTables.bootstrap.min.js}"></script>
+<script th:src="@{/js/bootstrap-select.min.js}"></script>
+
+</body>
+</html>
