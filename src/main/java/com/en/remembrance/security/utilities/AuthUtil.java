@@ -1,6 +1,7 @@
 package com.en.remembrance.security.utilities;
 
 import com.en.remembrance.security.dto.AuthUserDetail;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -26,5 +27,10 @@ public class AuthUtil {
     public static Collection<? extends GrantedAuthority> getCurrentUserAuthorities() {
         return getAuthentication().getAuthorities();
     }
+
+    /*public static void update(User userObject) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userObject, userObject.getPassword(), userObject.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }*/
 
 }
