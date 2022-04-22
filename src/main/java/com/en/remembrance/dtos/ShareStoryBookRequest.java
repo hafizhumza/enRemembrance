@@ -21,7 +21,6 @@ public class ShareStoryBookRequest {
     @Min(value = 1, message = "Invalid StoryBook ID")
     private Long id;
 
-    @Email(message = "Invalid email")
     private String receiverEmail;
 
 }

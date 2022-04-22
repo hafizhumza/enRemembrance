@@ -36,6 +36,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -319,7 +320,7 @@ public class StoryBookController extends BaseController {
     }
 
     @GetMapping("/share")
-    public String share(@RequestParam(required = false) String mode, HttpSession session, Model model, @ModelAttribute(Constant.KEY_RESULT_MESSAGE) String resultMessage, @ModelAttribute(Constant.KEY_ERROR) String errorMessage) {
+    public String share(@RequestParam(required = false) String mode, Model model, @ModelAttribute(Constant.KEY_RESULT_MESSAGE) String resultMessage, @ModelAttribute(Constant.KEY_ERROR) String errorMessage) {
         UserDto currentUser = setUserModel(model);
 
         model.addAttribute(Constant.KEY_MODE, mode);
@@ -360,10 +361,23 @@ public class StoryBookController extends BaseController {
             return "storybook/share";
         }
 
-        boolean result = false;
+        if (!StringUtils.hasText(shareStoryBookRequest.getReceiverEmail())) {
+            model.addAttribute(Constant.KEY_ERROR, "Please provide an email address");
+            return "storybook/share";
+        }
+
+        String[] emails = shareStoryBookRequest.getReceiverEmail().split(",");
+
+        List<ShareStoryBookRequest> requests = Arrays.stream(emails)
+                .map(e -> new ShareStoryBookRequest(shareStoryBookRequest.getId(), e.trim()))
+                .collect(Collectors.toList());
+
+//        List<ShareStoryBookRequest> requests = users.stream()
+//                .map(u -> new ShareStoryBookRequest(shareStoryBookRequest.getId(), u.getEmail()))
+//                .collect(Collectors.toList());
 
         try {
-            result = storyBookService.share(shareStoryBookRequest, currentUser);
+            storyBookService.share(requests, currentUser);
         } catch (MessagingException e) {
             log.error("MessagingException while sharing Storybook: ", e);
             model.addAttribute(Constant.KEY_ERROR, "Error while sending email");
@@ -375,12 +389,7 @@ public class StoryBookController extends BaseController {
             model.addAttribute(Constant.KEY_ERROR, "Unknown error while sending email");
         }
 
-        if (!result) {
-            model.addAttribute(Constant.KEY_ERROR, "Error while sharing Storybook");
-            return "storybook/share";
-        }
-
-        redirectAttributes.addFlashAttribute(Constant.KEY_RESULT_MESSAGE, "Storybook shared successfully!");
+        redirectAttributes.addFlashAttribute(Constant.KEY_RESULT_MESSAGE, "Storybook will be shared to the provided email addresses");
         return "redirect:/storybooks/share";
     }
 
