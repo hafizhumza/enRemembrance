@@ -89,38 +89,55 @@
                                             <span style="color: red; font-weight: bold"
                                                   th:utext="${storybookError}"></span>-->
                                         </div>
-                                        <button type="submit"
-                                                th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
-                                                id="submitButton"
-                                                name="submitButton"
-                                                class="btn btn-success">Share
-                                        </button>
-                                        <button type="button" class="btn btn-inverse" onclick="window.history.back()">
-                                            Cancel
-                                        </button>
-                                        <div th:if="${storybookError == null}" style="float: right;">
-                                            <div th:if="${mode == null || mode != 'outside'}">
-                                                <a class="btn btn-warning"
-                                                   th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
-                                                   th:href="@{/storybooks/share(mode=outside)}">
-                                                    <span class="glyphicon glyphicon-share"></span> Share with Public
-                                                </a>
-                                            </div>
-                                            <div th:if="${mode == 'outside'}">
-                                                <a class="btn btn-primary"
-                                                   th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
-                                                   th:href="@{/storybooks/share}">
-                                                    <span class="glyphicon glyphicon-share"></span> Share Within
-                                                    enRemembrance
-                                                </a>
-                                            </div>
+                                        <div style="display: inline;">
+                                            <button type="submit"
+                                                    th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
+                                                    id="submitButton"
+                                                    name="submitButton"
+                                                    class="btn btn-success btn-sm">
+                                                <span class="glyphicon glyphicon-share"></span> Share
+                                            </button>
                                         </div>
-                                        <div th:if="${storyBooks == null || storyBooks.isEmpty()}"
-                                             style="float: right;">
-                                            <a class="btn btn-primary"
-                                               th:href="@{/storybooks/create}">
-                                                <span class="glyphicon glyphicon-plus-sign"></span> Create Storybook
-                                            </a>
+                                        <div th:if="${mode == null || mode != 'outside'}" style="display: inline;">
+                                            <button type="submit"
+                                                    th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
+                                                    id="submitAll" th:formaction="@{/storybooks/share-all}"
+                                                    name="submitAll"
+                                                    class="btn btn-info btn-sm">
+                                                <span class="glyphicon glyphicon-share"></span> All Users
+                                            </button>
+                                        </div>
+                                        <div style="display:inline;">
+                                            <div th:if="${storybookError == null}" style="display: inline;">
+                                                <div th:if="${mode == null || mode != 'outside'}"
+                                                     style="display: inline;">
+                                                    <a class="btn btn-warning btn-sm"
+                                                       th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
+                                                       th:href="@{/storybooks/share(mode=outside)}">
+                                                        Outside enRemembrance
+                                                    </a>
+                                                </div>
+                                                <div th:if="${mode == 'outside'}" style="display: inline;">
+                                                    <a class="btn btn-primary btn-sm"
+                                                       th:disabled="${storyBooks == null || storyBooks.isEmpty()}"
+                                                       th:href="@{/storybooks/share}">
+                                                        Inside enRemembrance
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div th:if="${storyBooks == null || storyBooks.isEmpty()}"
+                                                 style="float: right;">
+                                                <a class="btn btn-primary btn-sm"
+                                                   th:href="@{/storybooks/create}">
+                                                    <span class="glyphicon glyphicon-plus-sign"></span> Create Storybook
+                                                </a>
+                                            </div>
+                                            <div style="display: inline;">
+                                                <button type="button" class="btn btn-inverse"
+                                                        onclick="window.history.back()">
+                                                    Cancel
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

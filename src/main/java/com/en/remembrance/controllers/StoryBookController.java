@@ -9,6 +9,7 @@ import com.en.remembrance.dtos.StoryBookModel;
 import com.en.remembrance.dtos.TitlePageModel;
 import com.en.remembrance.dtos.UserDto;
 import com.en.remembrance.exceptions.CategoryNotFoundException;
+import com.en.remembrance.exceptions.StoryBookNotFoundException;
 import com.en.remembrance.exceptions.UserNotFoundException;
 import com.en.remembrance.services.CategoryService;
 import com.en.remembrance.services.FileService;
@@ -37,6 +38,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -90,7 +92,6 @@ public class StoryBookController extends BaseController {
                 model.addAttribute(Constant.KEY_ERROR, "Invalid Page");
             }
         }
-
 
         if (Util.between(pageNumber, Constant.TITLE_PAGE_NUM, Constant.CONCLUSION_PAGE_NUM)) {
             model.addAttribute(Constant.KEY_PAGE, pageNumber);
@@ -362,7 +363,7 @@ public class StoryBookController extends BaseController {
         boolean result = false;
 
         try {
-            result = storyBookService.share(shareStoryBookRequest);
+            result = storyBookService.share(shareStoryBookRequest, currentUser);
         } catch (MessagingException e) {
             log.error("MessagingException while sharing Storybook: ", e);
             model.addAttribute(Constant.KEY_ERROR, "Error while sending email");
@@ -380,6 +381,56 @@ public class StoryBookController extends BaseController {
         }
 
         redirectAttributes.addFlashAttribute(Constant.KEY_RESULT_MESSAGE, "Storybook shared successfully!");
+        return "redirect:/storybooks/share";
+    }
+
+    @Transactional
+    @PostMapping("/share-all")
+    public String shareAllWithin(@ModelAttribute ShareStoryBookRequest shareStoryBookRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        UserDto currentUser = setUserModel(model);
+        List<UserDto> users = userService.findAllActiveUsersExcludeSelfAndAdmin();
+
+        model.addAttribute(Constant.KEY_USERS, users);
+        model.addAttribute(Constant.KEY_SHARE_STORY_BOOK, new ShareStoryBookRequest());
+
+        List<StoryBookListModel> stories = storyBookService.findStoryBookListModelByUserId(currentUser.getId());
+        model.addAttribute(Constant.KEY_STORY_BOOKS, stories);
+
+        if (CollectionUtils.isEmpty(stories)) {
+            model.addAttribute(Constant.KEY_STORY_BOOK_ERROR, "Please create a storybook first");
+        }
+
+        if (CollectionUtils.isEmpty(users)) {
+            model.addAttribute(Constant.KEY_ERROR, "Users not found");
+            return "storybook/share";
+        }
+
+        if (shareStoryBookRequest.getId() == null || shareStoryBookRequest.getId() <= 0) {
+            model.addAttribute(Constant.KEY_ERROR, "Invalid Storybook");
+            return "storybook/share";
+        }
+
+        try {
+            List<ShareStoryBookRequest> requests = users.stream()
+                    .map(u -> new ShareStoryBookRequest(shareStoryBookRequest.getId(), u.getEmail()))
+                    .collect(Collectors.toList());
+
+            storyBookService.share(requests, currentUser);
+        } catch (StoryBookNotFoundException e) {
+            log.error("StoryBookNotFoundException while sharing Storybook: ", e);
+            model.addAttribute(Constant.KEY_ERROR, "Storybook not found");
+        } catch (MessagingException e) {
+            log.error("MessagingException while sharing Storybook: ", e);
+            model.addAttribute(Constant.KEY_ERROR, "Error while sending email");
+        } catch (ExecutionException e) {
+            log.error("ExecutionException while sharing Storybook: ", e);
+            model.addAttribute(Constant.KEY_ERROR, "Unknown error while sending email");
+        } catch (InterruptedException e) {
+            log.error("InterruptedException while sharing Storybook: ", e);
+            model.addAttribute(Constant.KEY_ERROR, "Unknown error while sending email");
+        }
+
+        redirectAttributes.addFlashAttribute(Constant.KEY_RESULT_MESSAGE, "Storybook will be shared with all users");
         return "redirect:/storybooks/share";
     }
 

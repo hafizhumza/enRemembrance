@@ -1,5 +1,6 @@
 package com.en.remembrance.services;
 
+import com.en.remembrance.constants.Constant;
 import com.en.remembrance.constants.PagePosition;
 import com.en.remembrance.domain.AuthUser;
 import com.en.remembrance.domain.Category;
@@ -21,6 +22,7 @@ import com.en.remembrance.exceptions.StoryBookNotFoundException;
 import com.en.remembrance.repositories.StoryBookRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -188,12 +190,11 @@ public class StoryBookService extends BaseService {
         return storyBookRepository.countByUser_IdAndRecycledIsFalse(userId);
     }
 
-    public boolean share(ShareStoryBookRequest request) throws MessagingException, ExecutionException, InterruptedException {
+    public boolean share(ShareStoryBookRequest request, UserDto userDto) throws MessagingException, ExecutionException, InterruptedException {
         StoryBook storyBook = storyBookRepository.findById(request.getId()).orElseThrow(StoryBookNotFoundException::new);
-        UserDto userDto = getCurrentUserDto();
 
         if (!userDto.getId().equals(storyBook.getUser().getId())) {
-            invalidAccess("This document doesn't belong to you.");
+            invalidAccess("This Storybook doesn't belong to you.");
         }
 
         String url = sharedStoryBookService.save(storyBook);
@@ -201,6 +202,20 @@ public class StoryBookService extends BaseService {
 
         Boolean result = emailService.emailSharedStory(dto).get();
         return result != null && result;
+    }
+
+    // TODO: Async commented for now due to Uri builder exception.
+    //@Async
+    public void share(List<ShareStoryBookRequest> requests, UserDto userDto) throws MessagingException, ExecutionException, InterruptedException {
+        for (ShareStoryBookRequest request : requests) {
+            try {
+                this.share(request, userDto);
+            } catch (StoryBookNotFoundException e) {
+                throw e;
+            } catch (Exception e) {
+                log.error("Error while sharing storybook: ", e);
+            }
+        }
     }
 
     private List<StoryBookListModel> getStoryBookListModels(List<StoryBook> storyBooks) {
