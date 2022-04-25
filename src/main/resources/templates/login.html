@@ -23,12 +23,12 @@
             <form class="login100-form validate-form" role="form"
                   th:action="@{/login}"
                   method="POST">
-				<span class="login100-form-title p-b-40">
-					Log In to enRemembrance
+				<span class="login100-form-title">
+					Login
 				</span>
-                <span class="login100-form-avatar p-b-40">
-					<img th:src="@{/images/admin.png}" alt="Image">
-				</span>
+                <div class="logo-wrapper">
+                    <img th:src="@{/images/enRemembrance-logo.svg}" alt="Image">
+                </div>
                 <p class="m-b-40" style="font-size: 16px;">Where your stories are the platform and memorial that can be shared now and
                     passed down to inspire future generations</p>
                 <div style="display: inline;" class=" alert alert-danger" th:inline="text"
@@ -80,6 +80,11 @@
             <div class="panel-footer m-t-25 m-b-25">
                 Terms and conditions are applied. <a th:href="@{/terms}" onClick="">Terms of Use</a>
             </div>
+        </div>
+        <div class="login-video-wrapper">
+            <video autoplay loop playsinline muted>
+                <source  src="https://video-previews.elements.envatousercontent.com/files/99f2f251-7f8b-4b56-b779-2b2fd61c5146/video_preview_h264.mp4"/>
+            </video>
         </div>
     </div>
 </div>
