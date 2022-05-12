@@ -140,7 +140,7 @@ public class UserService extends BaseService {
     }
 
     public AuthUser verifyForgotToken(String token) {
-        AuthUser authUser = userRepository.findByVerificationToken(token).orElseThrow(UserNotFoundException::new);
+        AuthUser authUser = userRepository.findByForgotPassword_Token(token).orElseThrow(UserNotFoundException::new);
 
         if (!authUser.isEnabled()) {
             throw new InvalidAccessException("User not active");
@@ -232,7 +232,7 @@ public class UserService extends BaseService {
     }
 
     public boolean verifyEmailVerificationToken(String token) {
-        AuthUser authUser = userRepository.findByVerificationToken(token).orElseThrow(UserNotFoundException::new);
+        AuthUser authUser = userRepository.findByForgotPassword_Token(token).orElseThrow(UserNotFoundException::new);
 
         if (authUser.isEnabled()) {
             throw new InvalidAccessException();

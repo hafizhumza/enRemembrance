@@ -69,7 +69,7 @@ public class AuthUser implements Serializable {
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @Lob
-    @Column(name = "verification_url")
+    @Column(name = "verification_token")
     private String verificationToken;
 
     @Column(name = "verification_url_updated")

@@ -12,8 +12,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<AuthUser, Long> {
 
-    Optional<AuthUser> findByVerificationToken(String verificationToken);
-
     Optional<AuthUser> findByEmail(String email);
 
     List<AuthUser> findByEnabledTrueAndIdNotInAndRoles_Name(Collection<Long> ids, String name);
