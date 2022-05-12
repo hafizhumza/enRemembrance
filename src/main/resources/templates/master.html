@@ -59,8 +59,10 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <!--<span class="logo-mini"><b>MSB</b>SC</span>-->
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">ADMIN</span>
-
+        <!--<span class="logo-lg">ADMIN</span>-->
+        <div class="logo-wrapper">
+            <img th:src="@{/images/enRemembrance-logo.svg}" alt="Image">
+        </div>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -165,7 +167,7 @@
             <li class="treeview">
                 <a th:href="@{/storytests}">
                     <i class="fa fa-star text-aqua"></i>
-                    <span>Storytests</span>
+                    <span>StoryFest</span>
                 </a>
             </li>
             <li class="treeview">
@@ -187,11 +189,14 @@
 
 <header class="main-header" th:fragment="user-header">
     <!-- Logo -->
-    <a th:href="@{/home}" class="logo">
+    <a th:href="@{/user/home}" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <!--<span class="logo-mini"><b>MSB</b>SC</span>-->
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg" th:utext="${user.role}"> </span>
+        <!--<span class="logo-lg" th:utext="${user.role}"> </span>-->
+        <div class="logo-wrapper">
+            <img th:src="@{/images/enRemembrance-logo.svg}" alt="Image">
+        </div>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -302,7 +307,7 @@
             <li class="treeview">
                 <a th:href="@{/storytests}">
                     <i class="fa fa-star text-red"></i>
-                    <span>Storytests</span>
+                    <span>StoryFest</span>
                 </a>
             </li>
             <li class="treeview">

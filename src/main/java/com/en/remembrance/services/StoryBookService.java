@@ -122,6 +122,7 @@ public class StoryBookService extends BaseService {
         String titleImagePath = fileService.saveBase64File(titlePageModel.getBase64Image(), titlePageModel.getImageType());
 
         TitlePage titlePage = new TitlePage(titlePageModel);
+        titlePage.setAuthor(user.getFullName());
         titlePage.setImagePath(titleImagePath);
         titlePage.setStoryBook(storyBook);
         storyBook.setTitlePage(titlePage);
@@ -130,6 +131,7 @@ public class StoryBookService extends BaseService {
         String conclusionImagePath = fileService.saveBase64File(conclusionPageModel.getBase64Image(), conclusionPageModel.getImageType());
 
         ConclusionPage conclusionPage = new ConclusionPage(conclusionPageModel);
+        conclusionPage.setAuthor(user.getFullName());
         conclusionPage.setImagePath(conclusionImagePath);
         conclusionPage.setStoryBook(storyBook);
         storyBook.setConclusionPage(conclusionPage);

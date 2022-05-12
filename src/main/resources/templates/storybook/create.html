@@ -66,6 +66,7 @@
                                         </label>
                                         <div class="col-md-4">
                                             <input type="text" id="author" th:field="${titlePageModel.author}"
+                                                   disabled
                                                    placeholder="Author" class="form-control"/>
                                             <span style="color: red; font-weight: bold"
                                                   th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author Error</span>

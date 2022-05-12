@@ -32,6 +32,9 @@
                             <p id="reset">Reset Password</p>
                             <p style="font-size: 16px;">Please enter your email address, and we'll send you a link to reset your password.</p>
                     </span>
+                <div class="logo-wrapper">
+                    <img th:src="@{/images/enRemembrance-logo.svg}" alt="Image">
+                </div>
                 <div style="display: inline;" class=" alert alert-danger" th:inline="text"
                      th:if="${!#strings.isEmpty(error)}">
                     [[${error}]]

@@ -25,7 +25,6 @@ public class TitlePageModel {
     @NotBlank(message = "Title cannot be empty")
     private String title;
 
-    @NotBlank(message = "Author cannot be empty")
     private String author;
 
     private MultipartFile image;

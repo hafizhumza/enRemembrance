@@ -112,7 +112,7 @@ public class StoryBookController extends BaseController {
 
     @GetMapping("/create")
     public String createGet(@RequestParam(required = false) String page, HttpSession session, Model model) {
-        setUserModel(model);
+        UserDto userDto = setUserModel(model);
         setTitleAndConclusionPagesKey(model);
 
         int pageNumber;
@@ -130,6 +130,11 @@ public class StoryBookController extends BaseController {
 
         StoryBookModel storyBookModel = (StoryBookModel) session.getAttribute(Constant.SESSION_CREATE_STORY_BOOK);
 
+        if (storyBookModel != null) {
+            storyBookModel.getTitlePage().setAuthor(userDto.getName());
+            storyBookModel.getConclusionPage().setAuthor(userDto.getName());
+        }
+
         if (pageNumber > Constant.CONCLUSION_PAGE_NUM) {
             if (storyBookModel != null)
                 pageNumber = Constant.CONCLUSION_PAGE_NUM;
@@ -145,7 +150,9 @@ public class StoryBookController extends BaseController {
                 model.addAttribute(Constant.KEY_ERROR, "Please add Title Page information first");
             }
 
-            model.addAttribute(Constant.KEY_TITLE_PAGE_MODEL, new TitlePageModel());
+            TitlePageModel titlePageModel = new TitlePageModel();
+            titlePageModel.setAuthor(userDto.getName());
+            model.addAttribute(Constant.KEY_TITLE_PAGE_MODEL, titlePageModel);
         } else {
             if (pageNumber == Constant.TITLE_PAGE_NUM) {
                 model.addAttribute(Constant.KEY_TITLE_PAGE_MODEL, storyBookModel.getTitlePage());
@@ -189,6 +196,11 @@ public class StoryBookController extends BaseController {
 
         StoryBookModel sessionModel = (StoryBookModel) session.getAttribute(Constant.SESSION_CREATE_STORY_BOOK);
 
+        if (sessionModel != null) {
+            sessionModel.getTitlePage().setAuthor(currentUser.getName());
+            sessionModel.getConclusionPage().setAuthor(currentUser.getName());
+        }
+
         if (bindingResult.hasErrors() || (titlePageModel.getImage() == null || titlePageModel.getImage().isEmpty())) {
             model.addAttribute(Constant.KEY_CATEGORIES, categoryService.getAllCategoryModels());
             model.addAttribute(Constant.KEY_TITLE_PAGE_MODEL, titlePageModel);
@@ -199,6 +211,8 @@ public class StoryBookController extends BaseController {
 
             return "storybook/create";
         } else {
+            titlePageModel.setAuthor(currentUser.getName());
+
             try {
                 titlePageModel.setImageType(fileService.getFileType(titlePageModel.getImage()));
                 titlePageModel.setBase64Image(fileService.convertToBase64(titlePageModel.getImage()));
@@ -208,6 +222,7 @@ public class StoryBookController extends BaseController {
 
             if (sessionModel == null) {
                 StoryBookModel storyBookModel = new StoryBookModel();
+                storyBookModel.getConclusionPage().setAuthor(currentUser.getName());
                 storyBookModel.setUserId(currentUser.getId());
                 storyBookModel.setTitlePage(titlePageModel);
                 session.setAttribute(Constant.SESSION_CREATE_STORY_BOOK, storyBookModel);
